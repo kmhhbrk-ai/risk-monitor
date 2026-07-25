@@ -36,13 +36,13 @@ ECOS_SERIES = [
 # ------------------------------------------------------------
 KOSIS_SERIES = [
     {"tab": "건설공사비지수",  "category": "공사비", "name": "건설공사비지수(총지수)",        "unit": "2020=100",
-     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16397AAA0+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=201501&endPrdDe=202605&orgId=397&tblId=DT_39701_A003"},
+     "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16397AAA0+&objL1=15397AA2AA+15397AA2AA1+15397AA2AA2+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=202501&endPrdDe=202605&orgId=397&tblId=DT_39701_A003"},
     {"tab": "노임단가",        "category": "공사비", "name": "직종별 시중노임단가",           "unit": "원/일",
-     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16365AAC8+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=H&startPrdDe=201501&endPrdDe=202601&orgId=365&tblId=TX_36504_A000"},
+     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16365AAC8+&objL1=15365AG5AB+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=H&startPrdDe=201501&endPrdDe=202601&orgId=365&tblId=TX_36504_A000"},
     {"tab": "지가변동률_의왕", "category": "보상비", "name": "의왕시 용도지역별 지가변동률",  "unit": "%",
-     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=201612&endPrdDe=202605&orgId=408&tblId=DT_31501N_010"},
+     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=T1+&objL1=10+19+1931+193103+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=202501&endPrdDe=202605&orgId=408&tblId=DT_31501N_010"},
     {"tab": "토지거래_의왕",   "category": "보상비", "name": "의왕시 토지거래 현황",          "unit": "필지",
-     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=13103114390T1+13103114390T2+&objL1=ALL&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=201501&endPrdDe=202605&orgId=408&tblId=DT_408_2006_S0004"},
+     "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=13103114390T1+13103114390T2+&objL1=13102114390A.0001+13102114390A.0010+13102114390A.00100034+&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=201501&endPrdDe=202605&orgId=408&tblId=DT_408_2006_S0004"},
 ]
 
 # list_ecos_codes.py 가 항목코드를 조회해 시트에 적어줄 통계표 목록
