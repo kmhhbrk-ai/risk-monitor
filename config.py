@@ -20,8 +20,8 @@ ECOS_SERIES = [
     {"tab": "금리_회사채BBB",  "category": "PF금리", "stat_code": "817Y002", "cycle": "D", "item_code": "010320000", "unit": "%", "name": "회사채(3년, BBB-) 수익률"},   # 확인필요
 
     # --- 공사비 관련 (404Y015: 생산자물가지수 특수분류) ---
-    {"tab": "PPI_건설전반",    "category": "공사비", "stat_code": "404Y015", "cycle": "M", "item_code": "확인필요", "unit": "2020=100", "name": "생산자물가지수(건설전반)"},  # 확인필요
-    {"tab": "PPI_철강",        "category": "공사비", "stat_code": "404Y015", "cycle": "M", "item_code": "확인필요", "unit": "2020=100", "name": "생산자물가지수(철강)"},      # 확인필요
+    {"tab": "PPI_형강",    "category": "공사비", "stat_code": "404Y015", "cycle": "M", "item_code": "307122AA", "unit": "2020=100", "name": "생산자물가지수(형강)"},  # 확인필요
+    {"tab": "PPI_철근 및 봉강",        "category": "공사비", "stat_code": "404Y015", "cycle": "M", "item_code": "307121AA", "unit": "2020=100", "name": "생산자물가지수(철근 및 봉강)"},      # 확인필요
 
     # --- 보상비 관련 ---
     {"tab": "CPI_총지수",      "category": "보상비", "stat_code": "901Y009", "cycle": "M", "item_code": "0", "unit": "2020=100", "name": "소비자물가지수(총지수)"},
