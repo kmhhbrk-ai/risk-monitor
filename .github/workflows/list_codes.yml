@@ -25,5 +25,6 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
           git add data/
-          git diff --cached --quiet || git commit -m "ECOS 코드표 갱신"
-          git push
+          git diff --cached --quiet || git commit -m "리스크지표 데이터 갱신"
+          git pull --rebase origin main
+          git push origin HEAD:main
