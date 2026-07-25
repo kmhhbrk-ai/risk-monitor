@@ -1,0 +1,29 @@
+name: ECOS 항목코드 조회(접속 테스트 겸용)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 패키지 설치
+        run: pip install -r requirements.txt
+      - name: 항목코드 조회
+        run: python list_ecos_codes.py
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+      - name: 결과 저장(커밋)
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "ECOS 코드표 갱신"
+          git push
