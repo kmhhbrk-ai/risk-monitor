@@ -36,7 +36,7 @@ ECOS_SERIES = [
 # ------------------------------------------------------------
 KOSIS_SERIES = [
     {"tab": "건설공사비지수",  "category": "공사비", "name": "건설공사비지수(총지수)",        "unit": "2020=100",
-     "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16397AAA0+&objL1=15397AA2AA+15397AA2AA1+15397AA2AA2+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=202501&endPrdDe=202605&orgId=397&tblId=DT_39701_A003"},
+     "url": https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16397AAA0+&objL1=15397AA2AA+15397AA2AA1+15397AA2AA2+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=202501&endPrdDe=202605&orgId=397&tblId=DT_39701_A003"},
     {"tab": "노임단가",        "category": "공사비", "name": "직종별 시중노임단가",           "unit": "원/일",
      "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=__KEY__&itmId=16365AAC8+&objL1=15365AG5AB+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=H&startPrdDe=201501&endPrdDe=202601&orgId=365&tblId=TX_36504_A000"},
     {"tab": "지가변동률_의왕", "category": "보상비", "name": "의왕시 용도지역별 지가변동률",  "unit": "%",
