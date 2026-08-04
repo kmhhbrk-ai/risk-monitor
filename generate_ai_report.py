@@ -1,7 +1,7 @@
 # ============================================================
-# generate_ai_report.py
-#  analysis_summary.csv → Gemini API 분석 → data/ai_report.csv / .md
-#  (수정할 곳: CONTEXT 의 사업 개요만 실제와 맞게 조정)
+# generate_ai_report.py  (전체 교체본 v2)
+#  analysis_summary.csv -> Gemini API 분석 -> data/ai_report.csv / .md
+#  * 사용 가능한 모델을 자동 조회하여 선택 (404 방지)
 # ============================================================
 import os
 import sys
@@ -12,65 +12,20 @@ import requests
 import pandas as pd
 
 API_KEY = os.environ.get("GEMINI_API_KEY", "")
-# ── 기존 두 줄 삭제 ──
-# MODEL = "gemini-2.5-flash"
-# ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
-
 BASE = "https://generativelanguage.googleapis.com/v1beta"
-
-# 선호 순서: 앞쪽부터 시도하고, 없으면 목록에서 자동 선택
 PREFERRED = ["flash-latest", "3.5-flash", "3-flash", "2.5-flash", "2.0-flash", "flash", "pro"]
-
-
-def pick_model():
-    """내 키로 실제 사용 가능한 모델을 조회해 하나 고른다."""
-    r = requests.get(f"{BASE}/models", params={"key": API_KEY}, timeout=60)
-    r.raise_for_status()
-    names = [m["name"] for m in r.json().get("models", [])
-             if "generateContent" in m.get("supportedGenerationMethods", [])]
-    print("[모델] 사용 가능:", ", ".join(n.replace("models/", "") for n in names))
-    for kw in PREFERRED:
-        for n in names:
-            base = n.replace("models/", "")
-            if kw in base and "vision" not in base and "embedding" not in base:
-                print(f"[모델] 선택: {base}")
-                return n
-    if names:
-        print(f"[모델] 선택(대체): {names[0]}")
-        return names[0]
-    raise RuntimeError("사용 가능한 모델이 없습니다.")
-
-
-def call_gemini(prompt):
-    model = pick_model()
-    body = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.2,
-            "responseMimeType": "application/json",
-            "responseSchema": SCHEMA,
-        },
-    }
-    r = requests.post(f"{BASE}/{model}:generateContent",
-                      params={"key": API_KEY}, json=body, timeout=180)
-    if r.status_code != 200:
-        print(f"[응답오류 {r.status_code}] {r.text[:800]}")
-    r.raise_for_status()
-    text = r.json()["candidates"][0]["content"]["parts"][0]["text"]
-    return json.loads(text)
-
 
 CONTEXT = """
 [사업 개요]
-- 의왕도시공사 민관합동 PF 방식 도시개발사업
+- 민관합동 PF 방식 도시개발사업
 - 2024년 기준 타당성 검토 완료 (모든 사업비 산정의 기준시점)
-- 2026년 민간참여자 공모·협상 진행
-- 2027년 1월 PFV(프로젝트금융투자회사) 설립 예정
+- 2026년 민간참여자 공모/협상 진행
+- 2027년 1월 PFV 설립 예정
 - 2029년 PF대출 실행 및 보상(수용) 예정
 [경보 임계치]
 - 공사비: 전년동월비 +5% 초과 / 보상비: +3%p 초과 / PF금리: +0.5%p 초과
 [지표 해석 지침]
-- PPI(생산자물가지수)는 건설공사비지수의 선행지표로, 괴리 확대는 향후 공사비 상승 신호
+- PPI는 건설공사비지수의 선행지표로, 괴리 확대는 향후 공사비 상승 신호
 - 회사채 BBB- 수익률은 PF 조달금리의 근사치, AA-와의 스프레드 확대는 신용경색 신호
 - 지가변동률 누적치는 2029년 보상비 상승압력의 근사치
 """
@@ -110,13 +65,34 @@ def build_prompt(csv_text):
    - 리스크등급(높음/보통/낮음)을 임계치와 2024년 대비 이탈 폭을 근거로 판정
    - 핵심진단은 2문장 이내, 반드시 구체적 수치를 포함
    - 근거지표는 지표명과 수치를 간결히 나열
-   - 대응옵션은 협약조건·보상시기·금융조달 등 실무적으로 실행 가능한 조치로 1~2개
+   - 대응옵션은 협약조건/보상시기/금융조달 등 실행 가능한 조치로 1~2개
 2. 종합요약: 임원 보고용으로 정확히 5개 문장. 각 문장에 수치를 포함할 것
-3. 데이터에 없는 사실을 추측해 단정하지 말 것. 결측·실패 지표는 언급하지 않아도 된다
-4. 모든 문장은 한국어 공문서 문체(개조식 아님, 서술형)로 작성"""
+3. 데이터에 없는 사실을 추측해 단정하지 말 것. 결측/실패 지표는 언급하지 않아도 된다
+4. 모든 문장은 한국어 서술형으로 작성"""
+
+
+def pick_model():
+    r = requests.get(f"{BASE}/models", params={"key": API_KEY}, timeout=60)
+    if r.status_code != 200:
+        print(f"[모델조회 오류 {r.status_code}] {r.text[:600]}")
+    r.raise_for_status()
+    names = [m["name"] for m in r.json().get("models", [])
+             if "generateContent" in m.get("supportedGenerationMethods", [])]
+    print("[모델] 사용 가능:", ", ".join(n.replace("models/", "") for n in names))
+    for kw in PREFERRED:
+        for n in names:
+            base = n.replace("models/", "")
+            if kw in base and "vision" not in base and "embedding" not in base:
+                print(f"[모델] 선택: {base}")
+                return n
+    if names:
+        print(f"[모델] 선택(대체): {names[0]}")
+        return names[0]
+    raise RuntimeError("사용 가능한 모델이 없습니다.")
 
 
 def call_gemini(prompt):
+    model = pick_model()
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
@@ -125,7 +101,10 @@ def call_gemini(prompt):
             "responseSchema": SCHEMA,
         },
     }
-    r = requests.post(ENDPOINT, params={"key": API_KEY}, json=body, timeout=180)
+    r = requests.post(f"{BASE}/{model}:generateContent",
+                      params={"key": API_KEY}, json=body, timeout=180)
+    if r.status_code != 200:
+        print(f"[생성 응답오류 {r.status_code}] {r.text[:800]}")
     r.raise_for_status()
     text = r.json()["candidates"][0]["content"]["parts"][0]["text"]
     return json.loads(text)
@@ -171,7 +150,6 @@ def main():
         parsed = call_gemini(build_prompt(df.to_csv(index=False)))
         to_outputs(parsed, ym)
     except Exception as e:
-        # AI 단계 실패가 전체 파이프라인을 중단시키지 않도록 처리
         print(f"[실패] AI 리포트 생성 오류: {str(e)[:500]}")
         sys.exit(0)
 
