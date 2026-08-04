@@ -116,7 +116,7 @@ def to_outputs(parsed, ym):
              "핵심진단": d["핵심진단"], "근거지표": d["근거지표"], "대응옵션": d["대응옵션"]}
             for d in parsed["부문분석"]]
     for i, s in enumerate(parsed["종합요약"], 1):
-        rows.append({"기준월": ym, "구분": "종합요약", "부문": str(i), "리스크등급": "",
+        rows.append({"기준월": ym, "구분": "종합요약", "부문": f"요약{i}", "리스크등급": "",
                      "핵심진단": s, "근거지표": "", "대응옵션": ""})
     df = pd.DataFrame(rows)
     df.to_csv("data/ai_report.csv", index=False, encoding="utf-8-sig")
