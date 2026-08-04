@@ -12,8 +12,53 @@ import requests
 import pandas as pd
 
 API_KEY = os.environ.get("GEMINI_API_KEY", "")
-MODEL = "gemini-2.5-flash"
-ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
+# ── 기존 두 줄 삭제 ──
+# MODEL = "gemini-2.5-flash"
+# ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
+
+BASE = "https://generativelanguage.googleapis.com/v1beta"
+
+# 선호 순서: 앞쪽부터 시도하고, 없으면 목록에서 자동 선택
+PREFERRED = ["flash-latest", "3.5-flash", "3-flash", "2.5-flash", "2.0-flash", "flash", "pro"]
+
+
+def pick_model():
+    """내 키로 실제 사용 가능한 모델을 조회해 하나 고른다."""
+    r = requests.get(f"{BASE}/models", params={"key": API_KEY}, timeout=60)
+    r.raise_for_status()
+    names = [m["name"] for m in r.json().get("models", [])
+             if "generateContent" in m.get("supportedGenerationMethods", [])]
+    print("[모델] 사용 가능:", ", ".join(n.replace("models/", "") for n in names))
+    for kw in PREFERRED:
+        for n in names:
+            base = n.replace("models/", "")
+            if kw in base and "vision" not in base and "embedding" not in base:
+                print(f"[모델] 선택: {base}")
+                return n
+    if names:
+        print(f"[모델] 선택(대체): {names[0]}")
+        return names[0]
+    raise RuntimeError("사용 가능한 모델이 없습니다.")
+
+
+def call_gemini(prompt):
+    model = pick_model()
+    body = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.2,
+            "responseMimeType": "application/json",
+            "responseSchema": SCHEMA,
+        },
+    }
+    r = requests.post(f"{BASE}/{model}:generateContent",
+                      params={"key": API_KEY}, json=body, timeout=180)
+    if r.status_code != 200:
+        print(f"[응답오류 {r.status_code}] {r.text[:800]}")
+    r.raise_for_status()
+    text = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+    return json.loads(text)
+
 
 CONTEXT = """
 [사업 개요]
