@@ -35,3 +35,15 @@
 2026-07-25 02:55,노임단가,성공,23행 수집
 2026-07-25 02:55,지가변동률_의왕,성공,68행 수집
 2026-07-25 02:55,토지거래_의왕,성공,9042행 수집
+2026-08-04 01:56,금리_CD91일,성공,140행 수집
+2026-08-04 01:56,금리_국고채3년,성공,140행 수집
+2026-08-04 01:56,금리_회사채AA,성공,140행 수집
+2026-08-04 01:56,금리_회사채BBB,성공,140행 수집
+2026-08-04 01:56,PPI_형강,실패,ECOS 응답 오류: 해당하는 데이터가 없습니다.
+2026-08-04 01:56,PPI_철근 및 봉강,실패,ECOS 응답 오류: 해당하는 데이터가 없습니다.
+2026-08-04 01:56,CPI_총지수,성공,138행 수집
+2026-08-04 01:56,GDP디플레이터,실패,ECOS 응답 오류: 해당하는 데이터가 없습니다.
+2026-08-04 01:56,건설공사비지수,실패,"HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=OWRmNTdmYjFjM2Q0YmEyMTZjZWM5OTk0ZDAyMWM3ZGQ=&itmId=16397AAA0+&objL1=15397AA2AA+15397AA2AA1+15397AA2AA2+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&form"
+2026-08-04 01:56,노임단가,실패,"HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=OWRmNTdmYjFjM2Q0YmEyMTZjZWM5OTk0ZDAyMWM3ZGQ=&itmId=16365AAC8+&objL1=15365AG5AB+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=H"
+2026-08-04 01:56,지가변동률_의왕,실패,"HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=OWRmNTdmYjFjM2Q0YmEyMTZjZWM5OTk0ZDAyMWM3ZGQ=&itmId=T1+&objL1=10+19+1931+193103+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M"
+2026-08-04 01:56,토지거래_의왕,실패,"HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=OWRmNTdmYjFjM2Q0YmEyMTZjZWM5OTk0ZDAyMWM3ZGQ=&itmId=13103114390T1+13103114390T2+&objL1=13102114390A.0001+13102114390A.0010+13102114390A.00100034+&objL2=ALL&ob"
