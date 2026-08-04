@@ -25,6 +25,10 @@ jobs:
           KOSIS_API_KEY: ${{ secrets.KOSIS_API_KEY }}
       - name: 분석 및 전망 계산
         run: python analyze_data.py
+      - name: AI 분석 리포트 생성
+        run: python generate_ai_report.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}        
       - name: 결과 저장(커밋)
         run: |
           git config user.name "github-actions"
